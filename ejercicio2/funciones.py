@@ -7,7 +7,7 @@ import csv
 letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 class Pedido:
-    def _init_(self, nombre: str):
+    def __init__(self, nombre: str):
         self.nombre = nombre
         self.numero_pedido = None
         self.pizzas = [] # lista de objetos PizzaPersonalizada
@@ -28,10 +28,10 @@ class Pedido:
             pizza.list_parts()
             print()
 
-dict_pizzas = {} # a cada numero de pedido le corresponde una lista de objetos pizza
+
 
 def generar_pedido():
-    nombre_cliente = input("Introducd tu nombre: ")
+    nombre_cliente = input("Introduce tu nombre: ")
     pedido = Pedido(nombre_cliente)
     pedido.asignar_numero_pedido()
     num_pedido = pedido.numero_pedido
@@ -47,27 +47,29 @@ def generar_pedido():
     num_pizzas = int(input("¿Cuántas pizzas quieres? "))
     for _ in range(num_pizzas):
         hacer_pizza(pedido, director, builder)
+        print()
+
+    print("Tu pedido es:")
+    #leer_pizzas_por_numero_de_pedido(num_pedido)
+    pizzas_solicitadas = leer_pizzas_por_numero_de_pedido(num_pedido)
+    for pizza in pizzas_solicitadas:
+        print(pizza)
 
     
-
 def hacer_pizza(pedido, director, builder):
-    tipo_menu = input('Elige tu tipo de menú (pizza sola, menú):')
-
-    if tipo_menu.lower() == 'pizza sola':
-        director.build_pizza_sola()
-
-    elif tipo_menu.lower() == 'menú':
-        director.build_pizza_menu()
+    '''Funcion que crea una pizza personalizada, la agrega al pedido y la guarda en un diccionario de pedidos'''
     
+    director.build_pizza()
     pizza_personalizada = builder.pizza  # es un objeto PizzaPersonalizada
     lista_ingredientes = pizza_personalizada.get_parts()
-    pedido.pizzas.append(lista_ingredientes) # agregamos la pizza al pedido (en forma de lista de ingredientes)
-    pizza_personalizada.list_parts()  # imprime la lista de ingredientes
+    pedido.agregar_pizza(lista_ingredientes) # agregamos la pizza al pedido (en forma de lista de ingredientes)
+    #pizza_personalizada.list_parts()  # imprime la lista de ingredientes
     
-    dict_pizzas[pedido.numero_pedido] = pedido.pizzas # agregamos el pedido al diccionario de pedidos
-
+    # GUARDAR DATOS PIZZA
     guardar_datos_csv(pedido)
+
     builder.reset() #reseteamos  builder para que no se acumulen los datos
+
 
 def guardar_datos_csv(pedido):
     with open('pedidos.csv', mode='a', newline='') as file:
@@ -90,6 +92,35 @@ def guardar_datos_csv(pedido):
                 'Extra': pizza[6]
             })
 
+def leer_pizzas_por_numero_de_pedido(numero_pedido, nombre_archivo='pedidos.csv'):
+    try:
+        pizzas_solicitadas = []
+
+        with open(nombre_archivo, newline='') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row['Número de Pedido'] == numero_pedido:
+                    pizza = {
+                        'Masa': row['Masa'],
+                        'Salsa Base': row['Salsa Base'],
+                        'Ingredientes': row['Ingredientes'],
+                        'Cocción': row['Cocción'],
+                        'Presentación': row['Presentación'],
+                        'Maridaje': row['Maridaje'],
+                        'Extra': row['Extra']
+                    }
+                    pizzas_solicitadas.append(pizza)
+
+        return pizzas_solicitadas
+
+    except FileNotFoundError:
+        print(f"El archivo '{nombre_archivo}' no se encontró.")
+        return []
 
 
-        
+
+def funcion_main():
+    print('Bienvenido a la pizzería')
+    generar_pedido()
+    print('Gracias por venir a la pizzería, vuelva pronto')
+     

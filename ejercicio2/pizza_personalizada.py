@@ -13,7 +13,7 @@ class ConcretePizzaPersonalizada(Builder):
 
 
     @property
-    def pizza(self) -> PizzaPersonalizada:
+    def pizza(self): #-> PizzaPersonalizada
         product = self._product
         self.reset()
         return product
@@ -27,11 +27,13 @@ class ConcretePizzaPersonalizada(Builder):
         self._product.add(f"Salsa base: {salsa}")
 
     def ingredientes(self) -> None:
+        lista_ingredientes = []
         while True:
             ingrediente = input("Agrega un ingrediente (o escribe 'fin' para terminar): ")
             if ingrediente.lower() == 'fin':
                 break
-            self._product.add(f"Ingrediente: {ingrediente}")
+            lista_ingredientes.append(ingrediente)
+        self._product.add(f"Ingrediente: {ingrediente}")
 
     def coccion(self) -> None:
         coccion = input("Elige el tipo de cocción (horno, parrilla, leña): ")
@@ -49,6 +51,8 @@ class ConcretePizzaPersonalizada(Builder):
         extra = input("Agrega un extra (o escribe 'ninguno' para omitir): ")
         if extra.lower() != 'ninguno':
             self._product.add(f"Extra: {extra}")
+        else:
+            self._product.add(f"Extra: ninguno")
 
 
 class PizzaPersonalizada():
@@ -62,4 +66,5 @@ class PizzaPersonalizada():
     def list_parts(self) -> None:
         print(f"Pizza parts: {', '.join(self.parts)}", end="")
 
-   
+    def get_parts(self) -> list:
+        return self.parts
