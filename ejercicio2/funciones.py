@@ -3,6 +3,7 @@ from random import randint
 from pizza_personalizada import PizzaPersonalizada 
 from pizza_personalizada import ConcretePizzaPersonalizada
 from director import Director
+import csv
 letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 class Pedido:
@@ -64,7 +65,31 @@ def hacer_pizza(pedido, director, builder):
     pizza_personalizada.list_parts()  # imprime la lista de ingredientes
     
     dict_pizzas[pedido.numero_pedido] = pedido.pizzas # agregamos el pedido al diccionario de pedidos
+
+    guardar_datos_csv(pedido)
     builder.reset() #reseteamos  builder para que no se acumulen los datos
+
+def guardar_datos_csv(pedido):
+    with open('pedidos.csv', mode='a', newline='') as file:
+        fieldnames = ['Número de Pedido', 'Masa', 'Salsa Base', 'Ingredientes', 'Cocción', 'Presentación', 'Maridaje', 'Extra']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        if file.tell() == 0:
+            writer.writeheader()
+
+        lista_pizzas=pedido.pizzas
+        for pizza in pedido.pizzas:
+            writer.writerow({
+                'Número de Pedido': pedido.numero_pedido,
+                'Masa': pizza[0],
+                'Salsa Base': pizza[1],
+                'Ingredientes': pizza[2],
+                'Cocción': pizza[3],
+                'Presentación': pizza[4],
+                'Maridaje': pizza[5],
+                'Extra': pizza[6]
+            })
+
 
 
         
