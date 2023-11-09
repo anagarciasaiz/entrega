@@ -33,7 +33,7 @@ class ConcretePizzaPersonalizada(Builder):
             if ingrediente.lower() == 'fin':
                 break
             lista_ingredientes.append(ingrediente)
-        self._product.add(f"Ingrediente: {ingrediente}")
+        self._product.add(f"Ingredientes: {', '.join(lista_ingredientes)}")
 
     def coccion(self) -> None:
         coccion = input("Elige el tipo de cocción (horno, parrilla, leña): ")

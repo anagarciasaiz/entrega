@@ -72,7 +72,7 @@ def hacer_pizza(pedido, director, builder):
 
 
 def guardar_datos_csv(pedido):
-    with open('pedidos.csv', mode='a', newline='') as file:
+    with open('ejercicio2/pedidos.csv', mode='a', newline='') as file:
         fieldnames = ['Número de Pedido', 'Masa', 'Salsa Base', 'Ingredientes', 'Cocción', 'Presentación', 'Maridaje', 'Extra']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
 
@@ -92,7 +92,7 @@ def guardar_datos_csv(pedido):
                 'Extra': pizza[6]
             })
 
-def leer_pizzas_por_numero_de_pedido(numero_pedido, nombre_archivo='pedidos.csv'):
+def leer_pizzas_por_numero_de_pedido(numero_pedido, nombre_archivo='ejercicio2/pedidos.csv'):
     try:
         pizzas_solicitadas = []
 
