@@ -1,0 +1,65 @@
+from ejercicio2 import Builder
+
+class PizzaBarbacoa(Builder):
+    def __init__(self):
+        super().__init__()
+
+    def build(self):
+        builder = ConcreteBuilderBarbacoa()
+        builder.masa()
+        builder.salsa_base()
+        builder.ingredientes()
+        builder.coccion()
+        builder.presentacion()
+        builder.maridaje()
+        builder.extra()
+        return builder.pizza
+
+class ConcreteBuilderBarbacoa(Builder):
+    def __init__(self) -> None:
+        self.reset()
+
+    def reset(self) -> None:
+        self._product = PizzaBarbacoa()
+
+    @property
+    def product(self) -> PizzaBarbacoa:
+        product = self._product
+        self.reset()
+        return product
+    def pizza(self) -> PizzaBarbacoa:
+        return self._product
+    
+    def nombre(self) -> None:
+        print("Pizza Barbacoa")
+
+    def masa(self):
+        self._pizza.add("Tipo de Masa", "Normal")
+
+    def salsa_base(self):
+        self._pizza.add("Salsa Base", "Barbacoa")
+
+    def ingredientes(self):
+        ingredientes = ["Carne de cerdo desmenuzada", "Cebolla", "Salsa barbacoa", "Queso"]
+        self._pizza.add("Ingredientes Principales", ingredientes)
+
+    def coccion(self):
+        self._pizza.add("Técnica de Cocción", "Horno de piedra")
+
+    def maridaje(self):
+        self._pizza.add("Maridajes", ["Cerveza", "Refresco de cola"])
+
+    def extra(self):
+        self._pizza.add("Extras", ["Bordes rellenos de queso", "Patatas fritas"])
+
+
+class PizzaBarbacoa():
+
+    def __init__(self) -> None:
+        self.parts = []
+
+    def add(self, part: Any) -> None:
+        self.parts.append(part)
+    
+    def list_parts(self) -> None:
+        print(f"Pizza parts: {', '.join(self.parts)}", end="")
