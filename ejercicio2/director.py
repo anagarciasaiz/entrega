@@ -1,4 +1,4 @@
-from ejercicio2 import Builder
+from pizza import Builder
 
 class Director:
     def __init__(self) -> None:
