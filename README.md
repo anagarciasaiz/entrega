@@ -1,5 +1,5 @@
 # Patrones Creacionales
-# Justificacion uso builder:
+## Justificacion uso builder:
 Al implementar el patrón Builder, se logra una separación clara entre el proceso de construcción y la representación final del objeto. Algunas razones clave para justificar su uso y cómo contribuye a la robustez y adaptabilidad del sistema:
 
 -Separación de responsabilidades: Permite dividir la construcción del objeto complejo (pizzas) de su representación final, facilitando la gestión del código.
